@@ -47,7 +47,7 @@
 
 <div id="video-container">
     <video id="myVideo" class="video-js vjs-default-skin vjs-big-play-centered" preload="auto" width="640" height="360" autoplay>
-        <!-- Usuwamy src tag -->
+        <source src="https://cdn.videas.fr/v-medias/s4/hlsv1/fc/af/fcaf6722-8ea9-4365-a5d1-bf52d878ef5a/1080p.m3u8" type="application/vnd.apple.mpegurl">
     </video>
 </div>
 
@@ -61,16 +61,6 @@
         <i onclick="replay(5)" class="material-icons" style="font-size: 40px;padding: 10px;">replay_5</i>
         <i id="volume" onclick="volume()" class="material-icons" style="font-size: 40px;padding: 10px;">volume_up</i>
         <span style="font-weight: bold;position:absolute;bottom:10px;white-space: nowrap;padding: 10px;" id="nome">Miraculous Ladybug & Cat Noir</span>
-    </div>
-    <div style="right: 10px;position:absolute;bottom:10px;">
-        <div class="tooltip"><i class="material-icons">
-                <span class="tooltiptext">
-        </div>
-        <i class="material-icons" style="font-size: 40px;padding: 10px;">subtitles</i>
-        <i id="full" onclick="full()" class="material-icons" style="font-size: 40px;padding: 10px;">fullscreen</i>
-    </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
     var video = document.getElementById('myVideo');
@@ -103,50 +93,22 @@
     video.onclick = function() {
         togglePlay();
     };
-</script>
-<script>
-    // Funkcja ukrywająca menu i inne elementy, gdy nie są dotykane ani przewijane
-    var timeoutId;
-    function hideElements() {
-        // Ukryj menu i inne elementy
-        document.getElementById('content').style.display = 'none';
 
-        // Czyszczenie timeoutu, aby uniknąć powtórnego ukrywania elementów
-        clearTimeout(timeoutId);
+    // Dodanie obsługi zdarzenia kliknięcia przycisku na wszystkich przyciskach w divie o id="content"
+    var contentDiv = document.getElementById('content');
+    var buttons = contentDiv.getElementsByTagName('i');
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].onclick = function() {
+            showElements();
+        };
     }
 
-    // Funkcja pokazująca menu i inne elementy, gdy są dotykane lub przewijane
-    function showElements() {
-        // Pokaż menu i inne elementy
-        document.getElementById('content').style.display = 'block';
-
-        // Czyszczenie timeoutu, aby uniknąć powtórnego pokazywania elementów
-        clearTimeout(timeoutId);
-
-        // Ustaw nowy timeout po którym elementy zostaną ponownie ukryte
-        timeoutId = setTimeout(hideElements, 5000);
-    }
-
-    // Uruchom funkcję showElements przy załadowaniu strony
-    window.onload = function () {
-        showElements();
-    }
-
-    // Uruchom funkcję showElements przy przewijaniu strony
-    window.onscroll = function () {
-        showElements();
-    }
-
-    // Uruchom funkcję showElements przy dotyku na stronie
-    window.ontouchstart = function () {
-        showElements();
-        togglePlay();
-    }
-
-    // Uruchom funkcję showElements przy naciśnięciu klawisza na klawiaturze
-    window.onkeydown = function () {
-        showElements();
-    }
+    // Dodanie obsługi zdarzenia naciśnięcia klawisza do okna
+    window.onkeydown = function(event) {
+        if (event.keyCode === 13) { // Enter key
+            showElements();
+        }
+    };
 </script>
 </body>
 </html>
